@@ -9,7 +9,7 @@ export const Buttons = (props) => {
 			<button id="divide" className="operator" value="/" onClick={props.isOperator}>
 				/
 			</button>
-			<button id="multiply" className="operator" value="x" onClick={props.isOperator}>
+			<button id="multiply" className="operator" value="*" onClick={props.isOperator}>
 				x
 			</button>
 			<button id="seven" className="number" value="7" onClick={props.isNumber}>
