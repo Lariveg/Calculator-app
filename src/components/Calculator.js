@@ -41,18 +41,21 @@ export const Calculator = () => {
 		setDisplay('0');
 	};
 
-	const maxDigitWarning = () => {};
-	const isNumber = (event) => {
-		console.log(event.target.value);
-		let tempFormula = formula;
+	const maxDigitWarning = () => {
+		if (display.lenght > 21) {
+		}
+	};
 
-		if (tempFormula.startsWith('0')) {
-			tempFormula = tempFormula.slice(1);
+	const isNumber = (event) => {
+		let tempFormula = formula;
+		let tempDisplay = display;
+
+		if (tempFormula.endsWith('0') && !tempDisplay.includes('.')) {
+			tempFormula = tempDisplay - 0 > 1 ? tempFormula : tempFormula.slice(tempFormula.lenght, -1);
 		}
 		tempFormula = tempFormula + event.target.value;
 		setFormula(tempFormula);
 
-		let tempDisplay = display;
 		if (tempDisplay === '0') {
 			tempDisplay = '';
 		}
@@ -61,19 +64,23 @@ export const Calculator = () => {
 		}
 		setDisplay(tempDisplay + event.target.value);
 	};
-	const isDecimal = (event) => {
+
+	const isDecimal = () => {
 		let tempFormula = formula;
 		let tempDisplay = display;
-		if (endsWithOperator(tempFormula) || (display === '' && formula === '')) {
-			tempFormula = tempFormula + '0.';
+
+		if (endsWithOperator(tempDisplay) || tempDisplay === '0') {
 			tempDisplay = '0.';
+			tempFormula = tempFormula.endsWith('0') ? tempFormula + '.' : tempFormula + '0.';
 		} else {
-			tempDisplay = tempDisplay + event.target.value;
-			tempFormula = tempFormula + event.target.value;
+			tempDisplay = tempDisplay.includes('.') ? tempDisplay : tempDisplay + '.';
+			tempFormula = tempDisplay.includes('.') ? tempFormula : tempFormula + '.';
 		}
+
 		setDisplay(tempDisplay);
 		setFormula(tempFormula);
 	};
+
 	const isOperator = (event) => {
 		let tempFormula = formula;
 
@@ -90,6 +97,7 @@ export const Calculator = () => {
 		setFormula(tempFormula);
 		setDisplay(event.target.value);
 	};
+
 	const evaluate = () => {
 		setFormula(formula + '=' + eval(formula));
 		setDisplay(eval(formula));
