@@ -41,11 +41,6 @@ export const Calculator = () => {
 		setDisplay('0');
 	};
 
-	const maxDigitWarning = () => {
-		if (display.lenght > 21) {
-		}
-	};
-
 	const isNumber = (event) => {
 		let tempFormula = formula;
 		let tempDisplay = display;
@@ -53,8 +48,6 @@ export const Calculator = () => {
 		if (tempFormula.endsWith('0') && !tempDisplay.includes('.')) {
 			tempFormula = tempDisplay - 0 > 1 ? tempFormula : tempFormula.slice(tempFormula.lenght, -1);
 		}
-		tempFormula = tempFormula + event.target.value;
-		setFormula(tempFormula);
 
 		if (tempDisplay === '0') {
 			tempDisplay = '';
@@ -62,7 +55,18 @@ export const Calculator = () => {
 		if (endsWithOperator(tempDisplay)) {
 			tempDisplay = tempDisplay.slice(1);
 		}
-		setDisplay(tempDisplay + event.target.value);
+
+		tempDisplay = tempDisplay + event.target.value;
+		tempFormula = tempFormula + event.target.value;
+
+		if (tempDisplay.length > 21) {
+			tempDisplay = tempDisplay.slice(tempDisplay.lenght, -1);
+			tempFormula = tempFormula.slice(tempFormula.lenght, -1);
+			alert('Max Digit Met');
+		}
+
+		setDisplay(tempDisplay);
+		setFormula(tempFormula);
 	};
 
 	const isDecimal = () => {
@@ -73,8 +77,14 @@ export const Calculator = () => {
 			tempDisplay = '0.';
 			tempFormula = tempFormula.endsWith('0') ? tempFormula + '.' : tempFormula + '0.';
 		} else {
-			tempDisplay = tempDisplay.includes('.') ? tempDisplay : tempDisplay + '.';
 			tempFormula = tempDisplay.includes('.') ? tempFormula : tempFormula + '.';
+			tempDisplay = tempDisplay.includes('.') ? tempDisplay : tempDisplay + '.';
+		}
+
+		if (tempDisplay.length > 21) {
+			tempDisplay = tempDisplay.slice(tempDisplay.lenght, -1);
+			tempFormula = tempFormula.slice(tempFormula.lenght, -1);
+			alert('Max Digit Met');
 		}
 
 		setDisplay(tempDisplay);
