@@ -45,6 +45,13 @@ export const Calculator = () => {
 		let tempFormula = formula;
 		let tempDisplay = display;
 
+		//If the user last pressed =, then start a new formula
+		let index = tempFormula.indexOf('=');
+		if (index > 0) {
+			tempFormula = '';
+			tempDisplay = '0';
+		}
+
 		if (tempFormula.endsWith('0') && !tempDisplay.includes('.')) {
 			tempFormula = tempDisplay - 0 > 1 ? tempFormula : tempFormula.slice(tempFormula.lenght, -1);
 		}
@@ -73,6 +80,13 @@ export const Calculator = () => {
 		let tempFormula = formula;
 		let tempDisplay = display;
 
+		//If the user last pressed =, then start a new formula
+		let index = tempFormula.indexOf('=');
+		if (index > 0) {
+			tempFormula = '';
+			tempDisplay = '0';
+		}
+
 		if (endsWithOperator(tempDisplay) || tempDisplay === '0') {
 			tempDisplay = '0.';
 			tempFormula = tempFormula.endsWith('0') ? tempFormula + '.' : tempFormula + '0.';
@@ -94,7 +108,7 @@ export const Calculator = () => {
 	const isOperator = (event) => {
 		let tempFormula = formula;
 
-		//If the user pressed =, then evaluate an remember the result
+		//If the user last pressed =, then evaluate an remember the result
 		let index = tempFormula.indexOf('=');
 		if (index > 0) {
 			tempFormula = tempFormula.slice(index + 1);
