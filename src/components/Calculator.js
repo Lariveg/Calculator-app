@@ -2,35 +2,7 @@ import React, { useState } from 'react';
 import { Formula } from './Formula';
 import { Display } from './Display';
 import { Buttons } from './Buttons';
-
-function multipleOperators(string, newVal) {
-	if (string.endsWith('-')) {
-		if (newVal === '-') {
-			string = string.slice(string.lenght, -1);
-			return string;
-		} else {
-			string = string.slice(string.lenght, -1);
-			return multipleOperators(string, newVal);
-		}
-	} else if (string.endsWith('+') || string.endsWith('/') || string.endsWith('*')) {
-		if (newVal === '-') {
-			return string;
-		} else {
-			string = string.slice(string.lenght, -1);
-			return string;
-		}
-	} else {
-		return string;
-	}
-}
-
-function endsWithOperator(string) {
-	if (string.endsWith('+') || string.endsWith('-') || string.endsWith('/') || string.endsWith('*')) {
-		return true;
-	} else {
-		return false;
-	}
-}
+import { multipleOperators, endsWithOperator } from '../helpers/index';
 
 export const Calculator = () => {
 	const [ formula, setFormula ] = useState('');
@@ -54,7 +26,7 @@ export const Calculator = () => {
 
 		//don't let the formula start with 0. 005 becomes 5. If it is after a decimal, then 00 is fine
 		if (tempFormula.endsWith('0') && !tempDisplay.includes('.')) {
-			//if the display shows 0,... which is < 1, then the formula can end in 0 (I use display because the formula can have already more sets of numbers with a decimal)
+			//if the display is > 1, then the formula can end in 0 (example 55000)
 			tempFormula = tempDisplay - 0 > 1 ? tempFormula : tempFormula.slice(tempFormula.lenght, -1);
 		}
 
