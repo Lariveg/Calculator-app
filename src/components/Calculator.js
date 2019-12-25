@@ -107,7 +107,7 @@ export const Calculator = () => {
 		let result = Math.round(1000000000000 * eval(formula)) / 1000000000000;
 
 		setFormula(formula + '=' + result);
-		setDisplay(eval(formula));
+		setDisplay(result);
 	};
 
 	return (
