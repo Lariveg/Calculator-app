@@ -103,11 +103,25 @@ export const Calculator = () => {
 	};
 
 	const evaluate = () => {
-		//only show the first 12 decimals
-		let result = Math.round(1000000000000 * eval(formula)) / 1000000000000;
+		let tempFormula = formula;
+		let tempDisplay = display;
 
-		setFormula(formula + '=' + result);
-		setDisplay(result);
+		//In case of pressing = right after =
+		if (!tempFormula.includes('=')) {
+			//only show the first 12 decimals
+			let result = Math.round(1000000000000 * eval(tempFormula)) / 1000000000000;
+
+			// if (result + '' === 'NaN') {
+			// 	tempDisplay = '0';
+			// 	tempFormula = '';
+			// } else {
+			tempDisplay = result;
+			tempFormula = tempFormula + '=' + result;
+			// }
+		}
+
+		setFormula(tempFormula);
+		setDisplay(tempDisplay);
 	};
 
 	return (
