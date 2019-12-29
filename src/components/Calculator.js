@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formula } from './Formula';
 import { Display } from './Display';
 import { Buttons } from './Buttons';
-import { multipleOperators, endsWithOperator } from '../helpers/index';
+import { multipleOperators, endsWithOperator, startsWithOperatorExceptMinus } from '../helpers/index';
 
 export const Calculator = () => {
 	const [ formula, setFormula ] = useState('');
@@ -19,7 +19,7 @@ export const Calculator = () => {
 
 		//If the user last pressed = and then presses a number, then start a new formula
 		let index = tempFormula.indexOf('=');
-		if (index > 0) {
+		if (index >= 0) {
 			tempFormula = '';
 			tempDisplay = '0';
 		}
@@ -36,7 +36,7 @@ export const Calculator = () => {
 		}
 
 		//if the user last pressed an operator, delete it before you write the next number
-		if (endsWithOperator(tempDisplay)) {
+		if (endsWithOperator(tempDisplay + '')) {
 			tempDisplay = tempDisplay.slice(1);
 		}
 
@@ -90,7 +90,7 @@ export const Calculator = () => {
 
 		//If the user last pressed =, then evaluate an remember the result
 		let index = tempFormula.indexOf('=');
-		if (index > 0) {
+		if (index >= 0) {
 			tempFormula = tempFormula.slice(index + 1);
 		}
 
@@ -108,16 +108,22 @@ export const Calculator = () => {
 
 		//In case of pressing = right after =
 		if (!tempFormula.includes('=')) {
+			//if there is a missing operand, eliminate the operator
+			if (startsWithOperatorExceptMinus(tempFormula)) {
+				tempFormula = tempFormula.slice(1, tempFormula.lenght);
+			}
+			// if (endsWithOperator(tempFormula)) {
+			// 	tempFormula = tempFormula.slice(0, -1);
+			// }
+			while (endsWithOperator(tempFormula)) {
+				tempFormula = tempFormula.slice(0, -1);
+			}
+
 			//only show the first 12 decimals
 			let result = Math.round(1000000000000 * eval(tempFormula)) / 1000000000000;
 
-			// if (result + '' === 'NaN') {
-			// 	tempDisplay = '0';
-			// 	tempFormula = '';
-			// } else {
 			tempDisplay = result;
 			tempFormula = tempFormula + '=' + result;
-			// }
 		}
 
 		setFormula(tempFormula);

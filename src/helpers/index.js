@@ -20,9 +20,9 @@ export const multipleOperators = function(string, newVal) {
 };
 
 export const endsWithOperator = function(string) {
-	if (string.endsWith('+') || string.endsWith('-') || string.endsWith('/') || string.endsWith('*')) {
-		return true;
-	} else {
-		return false;
-	}
+	return string.endsWith('+') || string.endsWith('-') || string.endsWith('/') || string.endsWith('*');
+};
+
+export const startsWithOperatorExceptMinus = function(string) {
+	return string.startsWith('+') || string.startsWith('/') || string.startsWith('*');
 };
