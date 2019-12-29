@@ -112,9 +112,6 @@ export const Calculator = () => {
 			if (startsWithOperatorExceptMinus(tempFormula)) {
 				tempFormula = tempFormula.slice(1, tempFormula.lenght);
 			}
-			// if (endsWithOperator(tempFormula)) {
-			// 	tempFormula = tempFormula.slice(0, -1);
-			// }
 			while (endsWithOperator(tempFormula)) {
 				tempFormula = tempFormula.slice(0, -1);
 			}
