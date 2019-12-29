@@ -27,7 +27,7 @@ export const Calculator = () => {
 		//don't let the formula start with 0. 005 becomes 5. If it is after a decimal, then 00 is fine
 		if (tempFormula.endsWith('0') && !tempDisplay.includes('.')) {
 			//if the display is > 1, then the formula can end in 0 (example 55000)
-			tempFormula = tempDisplay - 0 > 1 ? tempFormula : tempFormula.slice(tempFormula.lenght, -1);
+			tempFormula = tempDisplay - 0 > 1 ? tempFormula : tempFormula.slice(0, -1);
 		}
 
 		//the initial state of display starts from empty string when you start typing a number
@@ -36,7 +36,7 @@ export const Calculator = () => {
 		}
 
 		//if the user last pressed an operator, delete it before you write the next number
-		if (endsWithOperator(tempDisplay + '')) {
+		if (endsWithOperator(tempDisplay)) {
 			tempDisplay = tempDisplay.slice(1);
 		}
 
@@ -45,8 +45,8 @@ export const Calculator = () => {
 
 		//place a max digit limit
 		if (tempDisplay.length > 21) {
-			tempDisplay = tempDisplay.slice(tempDisplay.lenght, -1);
-			tempFormula = tempFormula.slice(tempFormula.lenght, -1);
+			tempDisplay = tempDisplay.slice(0, -1);
+			tempFormula = tempFormula.slice(0, -1);
 			alert('Max Digit Met');
 		}
 
@@ -76,8 +76,8 @@ export const Calculator = () => {
 
 		//place a max digit limit
 		if (tempDisplay.length > 21) {
-			tempDisplay = tempDisplay.slice(tempDisplay.lenght, -1);
-			tempFormula = tempFormula.slice(tempFormula.lenght, -1);
+			tempDisplay = tempDisplay.slice(0, -1);
+			tempFormula = tempFormula.slice(0, -1);
 			alert('Max Digit Met');
 		}
 
@@ -110,14 +110,14 @@ export const Calculator = () => {
 		if (!tempFormula.includes('=')) {
 			//if there is a missing operand, eliminate the operator
 			if (startsWithOperatorExceptMinus(tempFormula)) {
-				tempFormula = tempFormula.slice(1, tempFormula.lenght);
+				tempFormula = tempFormula.slice(1, tempFormula.length);
 			}
 			while (endsWithOperator(tempFormula)) {
 				tempFormula = tempFormula.slice(0, -1);
 			}
 
 			//only show the first 12 decimals
-			let result = Math.round(1000000000000 * eval(tempFormula)) / 1000000000000;
+			let result = Math.round(1e12 * eval(tempFormula)) / 1e12;
 
 			tempDisplay = result;
 			tempFormula = tempFormula + '=' + result;

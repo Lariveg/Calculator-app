@@ -1,19 +1,9 @@
 export const multipleOperators = function(string, newVal) {
 	if (string.endsWith('-')) {
-		if (newVal === '-') {
-			string = string.slice(string.lenght, -1);
-			return string;
-		} else {
-			string = string.slice(string.lenght, -1);
-			return multipleOperators(string, newVal);
-		}
+		string = string.slice(0, -1);
+		return newVal === '-' ? string : multipleOperators(string, newVal);
 	} else if (string.endsWith('+') || string.endsWith('/') || string.endsWith('*')) {
-		if (newVal === '-') {
-			return string;
-		} else {
-			string = string.slice(string.lenght, -1);
-			return string;
-		}
+		return newVal === '-' ? string : string.slice(0, -1);
 	} else {
 		return string;
 	}
